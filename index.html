@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#050506" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>FightBuild</title>
@@ -12,8 +12,11 @@
 <body>
   <div class="app">
     <header class="nav-bar">
-      <h1 class="nav-bar__title" id="pageTitle">ホーム</h1>
-      <p class="nav-bar__subtitle" id="pageSubtitle">今日の練習メニュー</p>
+      <div>
+        <p class="nav-bar__eyebrow">FightBuild</p>
+        <h1 class="nav-bar__title" id="pageTitle">ホーム</h1>
+      </div>
+      <p class="nav-bar__subtitle" id="pageSubtitle">今日のビルド</p>
     </header>
 
     <main class="app-main">
@@ -22,10 +25,14 @@
       </section>
 
       <section id="panel-techniques" class="panel" hidden aria-labelledby="tab-techniques">
-        <p class="panel-lead">技カードをタップするとビルドスロットに追加されます。</p>
-
         <section id="comboBuild" class="combo-build" aria-label="コンボ作成">
-          <h2 class="section-heading">コンボ作成</h2>
+          <div class="section-row">
+            <div>
+              <p class="section-kicker">Build Slots</p>
+              <h2 class="section-heading">コンボ作成</h2>
+            </div>
+            <span id="buildRank" class="rank-badge">RANK C</span>
+          </div>
           <div id="buildSlots" class="build-slots"></div>
           <div id="buildFlow" class="build-flow"></div>
           <div id="buildStats" class="build-stats"></div>
@@ -40,7 +47,12 @@
           </div>
         </section>
 
-        <h2 class="section-heading">技一覧</h2>
+        <div class="section-row">
+          <div>
+            <p class="section-kicker">Skill Tree</p>
+            <h2 class="section-heading">技一覧</h2>
+          </div>
+        </div>
         <div class="tech-toolbar">
           <input type="search" id="techniqueSearch" class="tech-search" placeholder="技名・カテゴリで検索" autocomplete="off" />
           <div class="filter-chips" role="group" aria-label="カテゴリ絞り込み">
@@ -61,24 +73,30 @@
       </section>
 
       <section id="panel-combos" class="panel" hidden aria-labelledby="tab-combos">
-        <p class="panel-lead">保存したコンボビルドの一覧です。</p>
-        <h2 class="section-heading">保存済みコンボ</h2>
+        <div class="section-row">
+          <div>
+            <p class="section-kicker">Saved Builds</p>
+            <h2 class="section-heading">保存済みコンボ</h2>
+          </div>
+        </div>
         <div id="comboList" class="card-stack"></div>
       </section>
 
       <section id="panel-diagnosis" class="panel" hidden aria-labelledby="tab-diagnosis">
-        <p class="panel-lead">設定の内容に連動して自動更新されます。戦術の深掘りはこちら。</p>
-        <h2 class="section-heading">詳細診断</h2>
+        <div class="section-row">
+          <div>
+            <p class="section-kicker">Analysis</p>
+            <h2 class="section-heading">詳細診断</h2>
+          </div>
+        </div>
         <div id="detailedDiagnosis" class="detailed-diagnosis" aria-live="polite"></div>
       </section>
 
       <section id="panel-settings" class="panel" hidden aria-labelledby="tab-settings">
-        <p class="panel-lead">プロフィールを入れるほど、おすすめ診断があなた向けになります。</p>
-        <h2 class="section-heading">設定</h2>
         <form id="profileForm" class="settings-form" novalidate>
           <fieldset class="settings-section">
             <legend class="settings-section__title">基本プロフィール</legend>
-            <p class="settings-section__hint">体の条件や目標を登録。診断の土台になります。</p>
+            <p class="settings-section__hint">入力すると診断とホームのおすすめがすぐ更新されます。</p>
             <div class="form-grid">
               <label class="form-field">
                 <span class="form-field__label">身長（cm）</span>
@@ -127,21 +145,20 @@
                 <span class="form-field__label">得意距離</span>
                 <select name="preferredDistance">
                   <option value="">選択してください</option>
-                  <option value="long">ロング（腕・足の届く外）</option>
-                  <option value="mid">ミドル（定番の打ち合い距離）</option>
-                  <option value="close">クロス・インファイト（近い距離）</option>
+                  <option value="long">ロング</option>
+                  <option value="mid">ミドル</option>
+                  <option value="close">クロス・インファイト</option>
                 </select>
               </label>
               <label class="form-field form-field--full">
                 <span class="form-field__label">苦手項目</span>
-                <textarea name="weakPoints" rows="2" placeholder="例：右ローを食らいやすい、クランチが苦手"></textarea>
+                <textarea name="weakPoints" rows="2" placeholder="例：右ローを食らいやすい"></textarea>
               </label>
             </div>
           </fieldset>
 
           <fieldset class="settings-section">
             <legend class="settings-section__title">診断プロフィール</legend>
-            <p class="settings-section__hint">好きな戦い方を選ぶと、おすすめ診断の精度が上がります。</p>
             <div class="form-grid">
               <label class="form-field form-field--full">
                 <span class="form-field__label">好きな戦い方</span>
@@ -159,25 +176,13 @@
                 <input type="text" name="referenceFighters" placeholder="例：武尊、那須川天心" />
               </label>
               <label class="form-field form-field--full">
-                <span class="form-field__label">MBTI <span class="form-field__optional">任意・おまけ</span></span>
+                <span class="form-field__label">MBTI <span class="form-field__optional">任意</span></span>
                 <select name="mbti">
                   <option value="">未入力でOK</option>
-                  <option value="INTJ">INTJ</option>
-                  <option value="INTP">INTP</option>
-                  <option value="ENTJ">ENTJ</option>
-                  <option value="ENTP">ENTP</option>
-                  <option value="INFJ">INFJ</option>
-                  <option value="INFP">INFP</option>
-                  <option value="ENFJ">ENFJ</option>
-                  <option value="ENFP">ENFP</option>
-                  <option value="ISTJ">ISTJ</option>
-                  <option value="ISFJ">ISFJ</option>
-                  <option value="ESTJ">ESTJ</option>
-                  <option value="ESFJ">ESFJ</option>
-                  <option value="ISTP">ISTP</option>
-                  <option value="ISFP">ISFP</option>
-                  <option value="ESTP">ESTP</option>
-                  <option value="ESFP">ESFP</option>
+                  <option value="INTJ">INTJ</option><option value="INTP">INTP</option><option value="ENTJ">ENTJ</option><option value="ENTP">ENTP</option>
+                  <option value="INFJ">INFJ</option><option value="INFP">INFP</option><option value="ENFJ">ENFJ</option><option value="ENFP">ENFP</option>
+                  <option value="ISTJ">ISTJ</option><option value="ISFJ">ISFJ</option><option value="ESTJ">ESTJ</option><option value="ESFJ">ESFJ</option>
+                  <option value="ISTP">ISTP</option><option value="ISFP">ISFP</option><option value="ESTP">ESTP</option><option value="ESFP">ESFP</option>
                 </select>
               </label>
             </div>
@@ -185,7 +190,6 @@
 
           <fieldset class="settings-section settings-section--hardcore">
             <legend class="settings-section__title">ガチ管理</legend>
-            <p class="settings-section__hint">上達のためのメモ。スパー後の振り返りや試合準備に使えます。</p>
             <div class="form-grid">
               <label class="form-field form-field--full">
                 <span class="form-field__label">得意技</span>
@@ -197,7 +201,7 @@
               </label>
               <label class="form-field form-field--full">
                 <span class="form-field__label">スパー課題</span>
-                <textarea name="sparringGoals" rows="2" placeholder="例：ジャブの後に必ずガードを戻す"></textarea>
+                <textarea name="sparringGoals" rows="2" placeholder="例：ジャブ後に必ずガードを戻す"></textarea>
               </label>
               <label class="form-field form-field--full">
                 <span class="form-field__label">試合予定</span>
@@ -207,63 +211,23 @@
           </fieldset>
 
           <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
-          <button type="submit" class="btn btn--primary">プロフィールを保存</button>
+          <button type="submit" class="btn btn--primary btn--block">プロフィールを保存</button>
         </form>
 
         <section class="settings-diagnosis" aria-labelledby="settings-diagnosis-heading">
+          <p class="section-kicker">Live Result</p>
           <h2 id="settings-diagnosis-heading" class="section-heading">おすすめ診断結果</h2>
-          <p class="settings-diagnosis__lead">入力するたびに自動で更新されます</p>
           <div id="quickDiagnosis" class="quick-diagnosis" aria-live="polite"></div>
         </section>
       </section>
     </main>
 
     <nav class="tab-bar" role="tablist" aria-label="メインメニュー">
-      <button type="button" class="tab-bar__item tab-bar__item--active" role="tab" id="tab-home" aria-selected="true" aria-controls="panel-home" data-panel="home">
-        <span class="tab-bar__icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1v-9.5z" />
-          </svg>
-        </span>
-        <span class="tab-bar__label">ホーム</span>
-      </button>
-      <button type="button" class="tab-bar__item" role="tab" id="tab-techniques" aria-selected="false" aria-controls="panel-techniques" data-panel="techniques">
-        <span class="tab-bar__icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="4" width="7" height="7" rx="1.5" />
-            <rect x="13" y="4" width="7" height="7" rx="1.5" />
-            <rect x="4" y="13" width="7" height="7" rx="1.5" />
-            <rect x="13" y="13" width="7" height="7" rx="1.5" />
-          </svg>
-        </span>
-        <span class="tab-bar__label">技</span>
-      </button>
-      <button type="button" class="tab-bar__item" role="tab" id="tab-combos" aria-selected="false" aria-controls="panel-combos" data-panel="combos">
-        <span class="tab-bar__icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0-7.07-7.07L9.88 6" />
-            <path d="M14 11a5 5 0 0 0-7.07 0l-1.41 1.41a5 5 0 0 0 7.07 7.07L14.12 18" />
-          </svg>
-        </span>
-        <span class="tab-bar__label">コンボ</span>
-      </button>
-      <button type="button" class="tab-bar__item" role="tab" id="tab-diagnosis" aria-selected="false" aria-controls="panel-diagnosis" data-panel="diagnosis">
-        <span class="tab-bar__icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
-          </svg>
-        </span>
-        <span class="tab-bar__label">詳細</span>
-      </button>
-      <button type="button" class="tab-bar__item" role="tab" id="tab-settings" aria-selected="false" aria-controls="panel-settings" data-panel="settings">
-        <span class="tab-bar__icon" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-          </svg>
-        </span>
-        <span class="tab-bar__label">設定</span>
-      </button>
+      <button type="button" class="tab-bar__item tab-bar__item--active" role="tab" id="tab-home" aria-selected="true" aria-controls="panel-home" data-panel="home"><span class="tab-bar__icon">⌂</span><span class="tab-bar__label">ホーム</span></button>
+      <button type="button" class="tab-bar__item" role="tab" id="tab-techniques" aria-selected="false" aria-controls="panel-techniques" data-panel="techniques"><span class="tab-bar__icon">◇</span><span class="tab-bar__label">技</span></button>
+      <button type="button" class="tab-bar__item" role="tab" id="tab-combos" aria-selected="false" aria-controls="panel-combos" data-panel="combos"><span class="tab-bar__icon">∞</span><span class="tab-bar__label">コンボ</span></button>
+      <button type="button" class="tab-bar__item" role="tab" id="tab-diagnosis" aria-selected="false" aria-controls="panel-diagnosis" data-panel="diagnosis"><span class="tab-bar__icon">✦</span><span class="tab-bar__label">詳細</span></button>
+      <button type="button" class="tab-bar__item" role="tab" id="tab-settings" aria-selected="false" aria-controls="panel-settings" data-panel="settings"><span class="tab-bar__icon">⚙</span><span class="tab-bar__label">設定</span></button>
     </nav>
   </div>
 
